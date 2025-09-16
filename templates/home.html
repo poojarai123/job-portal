@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+{% block content %}
+<h1 class="mb-3">Find your next job</h1>
+<form class="row g-2 mb-4" method="get">
+  <div class="col-md-4">
+    <input type="text" name="q" value="{{ q }}" class="form-control" placeholder="Search job title or description">
+  </div>
+  <div class="col-md-3">
+    <input type="text" name="location" value="{{ location }}" class="form-control" placeholder="Location">
+  </div>
+  <div class="col-md-3">
+    <input type="number" name="min_salary" value="{{ min_salary }}" class="form-control" placeholder="Min Salary">
+  </div>
+  <div class="col-md-2">
+    <button class="btn btn-primary w-100">Search</button>
+  </div>
+</form>
+
+<div class="list-group">
+  {% for job in jobs %}
+    <a class="list-group-item list-group-item-action" href="{% url 'job_detail' job.id %}">
+      <div class="d-flex w-100 justify-content-between">
+        <h5 class="mb-1">{{ job.title }}</h5>
+        <small>{{ job.posted_on|date:"M d, Y" }}</small>
+      </div>
+      <p class="mb-1 text-muted">{{ job.location }} • ₹{{ job.salary }}</p>
+      <small>{{ job.description|truncatewords:25 }}</small>
+    </a>
+  {% empty %}
+    <div class="alert alert-info">No jobs found.</div>
+  {% endfor %}
+</div>
+{% endblock %}

@@ -1,0 +1,19 @@
+{% extends 'base.html' %}
+{% block content %}
+<h2>Applicants for: {{ job.title }}</h2>
+<ul class="list-group">
+  {% for a in applications %}
+  <li class="list-group-item">
+    <strong>{{ a.candidate.user.username }}</strong> — Applied on {{ a.applied_on|date:"M d, Y" }}
+    {% if a.candidate.resume %}
+      <div><a href="{{ a.candidate.resume.url }}" target="_blank">Download Resume</a></div>
+    {% endif %}
+    <div>Skills: {{ a.candidate.skills|default:"N/A" }}</div>
+    <div>Experience: {{ a.candidate.experience }} years</div>
+    <div>Location: {{ a.candidate.location|default:"N/A" }}</div>
+  </li>
+  {% empty %}
+  <li class="list-group-item">No applications yet.</li>
+  {% endfor %}
+</ul>
+{% endblock %}
